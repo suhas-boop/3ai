@@ -1,0 +1,524 @@
+/Users/admin/Documents/AI_Agents/Autonomous_academy/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+INFO:     Started server process [90497]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
+/Users/admin/Documents/AI_Agents/Autonomous_academy/src/autonomous_academy/services/content.py:25: RuntimeWarning: This package (`duckduckgo_search`) has been renamed to `ddgs`! Use `pip install ddgs` instead.
+  with DDGS() as ddgs:
+DEBUG SLIDES RAW RESPONSE: [
+  {
+    "title": "Introduction to Variables",
+    "bullets": [
+      "Variables are essential for storing and manipulating data in programming",
+      "They allow you to label a value and use it throughout your code",
+      "In this lesson, we'll explore what variables are, how to declare them, and how to assign values using the assignment operator",
+      "By the end of this lesson, you'll be able to define a variable and use the assignment operator to assign a value to a variable"
+    ],
+   ...
+DEBUG CHALLENGE RAW: ```json
+[
+  {
+    "id": "code-1",
+    "type": "code",
+    "stem": "## Assignment Operator Challenge\n\nWrite a Python program that declares a variable `name` and assigns it the value `'John Doe'`. Then, use the assignment operator to change the value of `name` to `'Jane Doe'`. Finally, print the updated value of `name`.",
+    "options": [
+      "# Starter Code\nname = 'John Doe'\n# TODO: Update the value of name to 'Jane Doe'\nprint(name)",
+      "# Solution Code\nname = 'John Doe'\nname = 'Jane...
+INFO:     127.0.0.1:60942 - "POST /api/generate-lesson HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62004 - "OPTIONS /api/generate-course HTTP/1.1" 200 OK
+Error parsing syllabus: 1 validation error for Module
+checkpoints.0
+  Input should be a valid string [type=string_type, input_value={'id': 'checkpoint-1', 'd...basics', 'type': 'quiz'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+Error parsing lesson: 2 validation errors for Lesson
+accessibility_notes.0
+  Input should be a valid string [type=string_type, input_value={'type': 'image', 'alt_te...classification diagram'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+accessibility_notes.1
+  Input should be a valid string [type=string_type, input_value={'type': 'video', 'captio...earning overview video'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+INFO:     127.0.0.1:62004 - "POST /api/generate-course HTTP/1.1" 200 OK
+INFO:     127.0.0.1:62045 - "OPTIONS /api/generate-lesson HTTP/1.1" 200 OK
+/Users/admin/Documents/AI_Agents/Autonomous_academy/src/autonomous_academy/services/content.py:25: RuntimeWarning: This package (`duckduckgo_search`) has been renamed to `ddgs`! Use `pip install ddgs` instead.
+  with DDGS() as ddgs:
+DEBUG SLIDES RAW RESPONSE: [
+  {
+    "title": "Module 1: Core Concept 1 (Fallback) - Machine Learning Fundamentals",
+    "bullets": [],
+    "speaker_notes": "Welcome to Module 1 of our machine learning course. In this lesson, we will explore the fundamentals of machine learning, including core terms, concepts, and practical applications. By the end of this lesson, you will be able to define core terms in machine learning, apply machine learning concepts to a practical example, and evaluate the outcome of a machine learnin...
+DEBUG PROJECT RAW: ```json
+{
+  "title": "Course-Long Capstone Project: E-commerce Website Development",
+  "scenario": "You are a freelance web developer tasked with building an e-commerce website for a small business. The website should allow customers to browse and purchase products, and the business owner should be able to manage the inventory and track orders. Your contribution to this project for this module is to design and implement the product catalog feature. The product catalog should display a list of pr...
+INFO:     127.0.0.1:62045 - "POST /api/generate-lesson HTTP/1.1" 200 OK
+/Users/admin/Documents/AI_Agents/Autonomous_academy/src/autonomous_academy/services/slides_service.py:13: RuntimeWarning: This package (`duckduckgo_search`) has been renamed to `ddgs`! Use `pip install ddgs` instead.
+  with DDGS() as ddgs:
+/Users/admin/Documents/AI_Agents/Autonomous_academy/src/autonomous_academy/services/slides_service.py:13: RuntimeWarning: This package (`duckduckgo_search`) has been renamed to `ddgs`! Use `pip install ddgs` instead.
+  with DDGS() as ddgs:
+/Users/admin/Documents/AI_Agents/Autonomous_academy/src/autonomous_academy/services/slides_service.py:13: RuntimeWarning: This package (`duckduckgo_search`) has been renamed to `ddgs`! Use `pip install ddgs` instead.
+  with DDGS() as ddgs:
+/Users/admin/Documents/AI_Agents/Autonomous_academy/src/autonomous_academy/services/slides_service.py:13: RuntimeWarning: This package (`duckduckgo_search`) has been renamed to `ddgs`! Use `pip install ddgs` instead.
+  with DDGS() as ddgs:
+/Users/admin/Documents/AI_Agents/Autonomous_academy/src/autonomous_academy/services/slides_service.py:13: RuntimeWarning: This package (`duckduckgo_search`) has been renamed to `ddgs`! Use `pip install ddgs` instead.
+  with DDGS() as ddgs:
+/Users/admin/Documents/AI_Agents/Autonomous_academy/src/autonomous_academy/services/slides_service.py:13: RuntimeWarning: This package (`duckduckgo_search`) has been renamed to `ddgs`! Use `pip install ddgs` instead.
+  with DDGS() as ddgs:
+Requesting presentation generation for: Module 1: Core Concept 1 (Fallback) - Machine Learning Fundamentals
+Failed to generate remote presentation: HTTPConnectionPool(host='localhost', port=5000): Read timed out. (read timeout=120)
+Remote generation failed: HTTPConnectionPool(host='localhost', port=5000): Read timed out. (read timeout=120). Falling back to local.
+Searching image for slide: Learning Objectives...
+Searching image for slide: What is Machine Learning?...
+Searching image for slide: Types of Machine Learning...
+Searching image for slide: Popular Machine Learning Algorithms...
+Searching image for slide: Practical Application...
+Failed to get image for 'a diagram showing the relationship between age, income, and buying behavior': https://duckduckgo.com/?q=a+diagram+showing+the+relationship+between+age%2C+income%2C+and+buying+behavior 202 Ratelimit
+Searching image for slide: Summary and Evaluation Rubric...
+INFO:     127.0.0.1:62092 - "GET /api/download-slides/module-1 HTTP/1.1" 200 OK
+Requesting presentation generation for: Module 1: Core Concept 1 (Fallback) - Machine Learning Fundamentals
+Downloading presentation from: http://localhost:5000/app_data/exports/Module 1 Core Concept 1 (Fallback) - Machine Learning Fundamentals agasdsd dsdsd sdadas asdmaasd.pptx
+Presentation saved to: /tmp/slides_module-1.pptx
+INFO:     127.0.0.1:62466 - "GET /api/download-slides/module-1 HTTP/1.1" 200 OK
+/Users/admin/Documents/AI_Agents/Autonomous_academy/src/autonomous_academy/services/slides_service.py:13: RuntimeWarning: This package (`duckduckgo_search`) has been renamed to `ddgs`! Use `pip install ddgs` instead.
+  with DDGS() as ddgs:
+/Users/admin/Documents/AI_Agents/Autonomous_academy/src/autonomous_academy/services/slides_service.py:13: RuntimeWarning: This package (`duckduckgo_search`) has been renamed to `ddgs`! Use `pip install ddgs` instead.
+  with DDGS() as ddgs:
+/Users/admin/Documents/AI_Agents/Autonomous_academy/src/autonomous_academy/services/slides_service.py:13: RuntimeWarning: This package (`duckduckgo_search`) has been renamed to `ddgs`! Use `pip install ddgs` instead.
+  with DDGS() as ddgs:
+/Users/admin/Documents/AI_Agents/Autonomous_academy/src/autonomous_academy/services/slides_service.py:13: RuntimeWarning: This package (`duckduckgo_search`) has been renamed to `ddgs`! Use `pip install ddgs` instead.
+  with DDGS() as ddgs:
+/Users/admin/Documents/AI_Agents/Autonomous_academy/src/autonomous_academy/services/slides_service.py:13: RuntimeWarning: This package (`duckduckgo_search`) has been renamed to `ddgs`! Use `pip install ddgs` instead.
+  with DDGS() as ddgs:
+/Users/admin/Documents/AI_Agents/Autonomous_academy/src/autonomous_academy/services/slides_service.py:13: RuntimeWarning: This package (`duckduckgo_search`) has been renamed to `ddgs`! Use `pip install ddgs` instead.
+  with DDGS() as ddgs:
+Requesting presentation generation for: Module 1: Core Concept 1 (Fallback) - Machine Learning Fundamentals
+Failed to generate remote presentation: HTTPConnectionPool(host='localhost', port=5000): Read timed out. (read timeout=120)
+Remote generation failed: HTTPConnectionPool(host='localhost', port=5000): Read timed out. (read timeout=120). Falling back to local.
+Searching image for slide: Learning Objectives...
+Searching image for slide: What is Machine Learning?...
+Searching image for slide: Types of Machine Learning...
+Searching image for slide: Popular Machine Learning Algorithms...
+Searching image for slide: Practical Application...
+Searching image for slide: Summary and Evaluation Rubric...
+Failed to get image for 'a diagram showing the evaluation rubric': https://duckduckgo.com/?q=a+diagram+showing+the+evaluation+rubric 202 Ratelimit
+INFO:     127.0.0.1:63445 - "GET /api/download-slides/module-1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51780 - "OPTIONS /api/generate-course HTTP/1.1" 200 OK
+Failed to parse JSON: Expecting ',' delimiter: line 183 column 33 (char 7035)
+Content: **Deep Learning Advanced Course Syllabus**
+
+**Course Overview**
+
+This 100-hour course is designed for advanced students interested in deep learning. The course will cover the core concepts, advanced applications, and practical aspects of deep learning. Students will gain hands-on experience with deep learning frameworks and tools, and apply their knowledge to real-world projects.
+
+**Course Outline**
+
+The course is divided into 24 modules, each lasting 60 minutes. The modules are organized into four sections: Foundations, Core Concepts, Advanced Applications, and Capstone.
+
+**Module List**
+
+```json
+[
+  {
+    "id": "module-1",
+    "title": "Introduction to Deep Learning",
+    "objectives": "Define deep learning, its history, and applications",
+    "duration_minutes": 60,
+    "dependencies": [],
+    "checkpoints": ["Define deep learning", "Explain the history of deep learning"]
+  },
+  {
+    "id": "module-2",
+    "title": "Mathematics for Deep Learning",
+    "objectives": "Review linear algebra, calculus, and probability",
+    "duration_minutes": 60,
+    "dependencies": ["module-1"],
+    "checkpoints": ["Solve linear algebra problems", "Differentiate functions"]
+  },
+  {
+    "id": "module-3",
+    "title": "Python for Deep Learning",
+    "objectives": "Install Python, NumPy, and SciPy",
+    "duration_minutes": 60,
+    "dependencies": ["module-1", "module-2"],
+    "checkpoints": ["Install Python", "Import NumPy and SciPy"]
+  },
+  {
+    "id": "module-4",
+    "title": "Deep Learning Frameworks",
+    "objectives": "Introduce TensorFlow and Keras",
+    "duration_minutes": 60,
+    "dependencies": ["module-3"],
+    "checkpoints": ["Install TensorFlow and Keras", "Run a simple neural network"]
+  },
+  {
+    "id": "module-5",
+    "title": "Neural Networks Basics",
+    "objectives": "Explain neural networks, activation functions, and loss functions",
+    "duration_minutes": 60,
+    "dependencies": ["module-4"],
+    "checkpoints": ["Explain the concept of neural networks", "Define activation and loss functions"]
+  },
+  {
+    "id": "module-6",
+    "title": "Convolutional Neural Networks (CNNs)",
+    "objectives": "Introduce CNNs, convolutional layers, and pooling layers",
+    "duration_minutes": 60,
+    "dependencies": ["module-5"],
+    "checkpoints": ["Explain CNNs", "Implement a convolutional layer"]
+  },
+  {
+    "id": "module-7",
+    "title": "Recurrent Neural Networks (RNNs)",
+    "objectives": "Introduce RNNs, LSTM, and GRU",
+    "duration_minutes": 60,
+    "dependencies": ["module-5"],
+    "checkpoints": ["Explain RNNs", "Implement an LSTM layer"]
+  },
+  {
+    "id": "module-8",
+    "title": "Deep Learning Optimization",
+    "objectives": "Explain optimization algorithms, gradient descent, and backpropagation",
+    "duration_minutes": 60,
+    "dependencies": ["module-5"],
+    "checkpoints": ["Explain optimization algorithms", "Implement gradient descent"]
+  },
+  {
+    "id": "module-9",
+    "title": "Regularization Techniques",
+    "objectives": "Explain regularization, dropout, and batch normalization",
+    "duration_minutes": 60,
+    "dependencies": ["module-8"],
+    "checkpoints": ["Explain regularization", "Implement dropout"]
+  },
+  {
+    "id": "module-10",
+    "title": "Deep Learning for Computer Vision",
+    "objectives": "Apply deep learning to image classification, object detection, and segmentation",
+    "duration_minutes": 60,
+    "dependencies": ["module-6"],
+    "checkpoints": ["Implement image classification", "Explain object detection"]
+  },
+  {
+    "id": "module-11",
+    "title": "Deep Learning for Natural Language Processing (NLP)",
+    "objectives": "Apply deep learning to text classification, language modeling, and machine translation",
+    "duration_minutes": 60,
+    "dependencies": ["module-7"],
+    "checkpoints": ["Implement text classification", "Explain language modeling"]
+  },
+  {
+    "id": "module-12",
+    "title": "Deep Learning for Time Series Analysis",
+    "objectives": "Apply deep learning to time series forecasting, anomaly detection, and clustering",
+    "duration_minutes": 60,
+    "dependencies": ["module-7"],
+    "checkpoints": ["Implement time series forecasting", "Explain anomaly detection"]
+  },
+  {
+    "id": "module-13",
+    "title": "Generative Adversarial Networks (GANs)",
+    "objectives": "Explain GANs, generators, and discriminators",
+    "duration_minutes": 60,
+    "dependencies": ["module-5"],
+    "checkpoints": ["Explain GANs", "Implement a generator"]
+  },
+  {
+    "id": "module-14",
+    "title": "Transfer Learning",
+    "objectives": "Explain transfer learning, pre-trained models, and fine-tuning",
+    "duration_minutes": 60,
+    "dependencies": ["module-10"],
+    "checkpoints": ["Explain transfer learning", "Implement fine-tuning"]
+  },
+  {
+    "id": "module-15",
+    "title": "Deep Learning for Robotics",
+    "objectives": "Apply deep learning to robotics, control, and perception",
+    "duration_minutes": 60,
+    "dependencies": ["module-10"],
+    "checkpoints": ["Implement robotic control", "Explain perception"]
+  },
+  {
+    "id": "module-16",
+    "title": "Deep Learning for Healthcare",
+    "objectives": "Apply deep learning to healthcare, medical imaging, and disease diagnosis",
+    "duration_minutes": 60,
+    "dependencies": ["module-10"],
+    "checkpoints": ["Implement medical imaging", "Explain disease diagnosis"]
+  },
+  {
+    "id": "module-17",
+    "title": "Deep Learning for Finance",
+    "objectives": "Apply deep learning to finance, stock market prediction, and portfolio optimization",
+    "duration_minutes": 60,
+    "dependencies": ["module-12"],
+    "checkpoints": ["Implement stock market prediction", "Explain portfolio optimization"]
+  },
+  {
+    "id": "module-18",
+    "title": "Deep Learning for Autonomous Vehicles",
+    "objectives": "Apply deep learning to autonomous vehicles, perception, and control",
+    "duration_minutes": 60,
+    "dependencies": ["module-15"],
+    "checkpoints": ["Implement perception", "Explain control"]
+  },
+  {
+    "id": "module-19",
+    "title": "Deep Learning for Natural Language Generation",
+    "objectives": "Apply deep learning to natural language generation, text generation, and language translation",
+    "duration_minutes": 60,
+    "dependencies": ["module-11"],
+    "checkpoints": ["Implement text generation", "Explain language translation"]
+  },
+  {
+    "id": "module-20",
+    "title": "Deep Learning for Recommendation Systems",
+    "objectives": "Apply deep learning to recommendation systems, collaborative filtering, and content-based filtering",
+    "duration_minutes": 60,
+    "dependencies": ["module-11"],
+    "checkpoints": ["Implement collaborative filtering", "Explain content-based filtering"]
+  },
+  {
+    "id": "module-21",
+    "title": "Deep Learning for Time Series Analysis (Advanced)",
+    "objectives": "Apply deep learning to advanced time series analysis, forecasting, and anomaly detection",
+    "duration_minutes": 60,
+    "dependencies": ["module-12"],
+    "checkpoints": ["Implement advanced time series forecasting", "Explain anomaly detection"]
+  },
+  {
+    "id": "module-22",
+    "title": "Deep Learning for Computer Vision (Advanced)",
+    "objectives": "Apply deep learning to advanced computer vision, object detection, and segmentation",
+    "duration_minutes": 60,
+    "dependencies": ["module-10"],
+    "checkpoints": ["Implement advanced object detection", "Explain segmentation"]
+  },
+  {
+    "id": "module-23",
+    "title": "Deep Learning Project Development",
+    "objectives": "Develop a deep learning project, design, and implementation",
+    "duration_minutes": 60,
+    "dependencies": ["module-1" to "module-22"],
+    "checkpoints": ["Design a deep learning project", "Implement a deep learning project"]
+  },
+  {
+    "id": "module-24",
+    "title": "Deep Learning Project Presentation",
+    "objectives": "Present a deep learning project, results, and conclusions",
+    "duration_minutes": 60,
+    "dependencies": ["module-23"],
+    "checkpoints": ["Present a deep learning project", "Discuss results and conclusions"]
+  }
+]
+```
+
+**Course Schedule**
+
+The course will be delivered over 24 weeks, with one module per week. Each module will last 60 minutes, and will include a lecture, discussion, and practical exercise.
+
+**Assessment**
+
+Students will be assessed based on their participation in class discussions and practical exercises, as well as their performance on assignments and projects.
+
+**Resources**
+
+* "Deep Learning Overview" by [Author] (https://example.com/deep-learning)
+* "Advanced Concepts" by [Author] (https://example.com/deep-learning-advanced)
+* TensorFlow and Keras documentation (https://www.tensorflow.org/ and https://keras.io/)
+* Python and NumPy documentation (https://www.python.org/ and https://numpy.org/)
+
+**Prerequisites**
+
+* Prior experience with Python programming
+* Familiarity with linear algebra, calculus, and probability
+* Basic understanding of machine learning concepts
+
+**Target Audience**
+
+* Advanced students interested in deep learning
+* Professionals looking to upgrade their skills in deep learning
+* Researchers interested in applying deep learning to their field
+
+**Learning Outcomes**
+
+* Master deep learning at an advanced level
+* Apply core concepts of deep learning to real-world problems
+* Develop practical skills in deep learning using TensorFlow and Keras
+* Design and implement a deep learning project
+Error parsing syllabus: Invalid JSON response from LLM: Expecting ',' delimiter: line 183 column 33 (char 7035)
+INFO:     127.0.0.1:51780 - "POST /api/generate-course HTTP/1.1" 200 OK
+INFO:     127.0.0.1:51817 - "OPTIONS /api/generate-lesson HTTP/1.1" 200 OK
+/Users/admin/Documents/AI_Agents/Autonomous_academy/src/autonomous_academy/services/content.py:25: RuntimeWarning: This package (`duckduckgo_search`) has been renamed to `ddgs`! Use `pip install ddgs` instead.
+  with DDGS() as ddgs:
+Error parsing lesson: 2 validation errors for Lesson
+accessibility_notes.0
+  Input should be a valid string [type=string_type, input_value={'type': 'image', 'descri...l Network Architecture'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+accessibility_notes.1
+  Input should be a valid string [type=string_type, input_value={'type': 'code', 'descrip...ification Code Example'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+DEBUG SLIDES RAW RESPONSE: [
+  {
+    "title": "Module 1: Core Concept 1 - Fallback",
+    "bullets": [
+      "Welcome to Module 1: Core Concept 1",
+      "In this module, we will explore the concept of fallback",
+      "Fallback is a critical concept in various fields",
+      "We will delve into the details of fallback and its applications"
+    ],
+    "speaker_notes": "Welcome to Module 1: Core Concept 1. In this module, we will explore the concept of fallback, which is a critical concept in various fields, including compu...
+DEBUG PROJECT RAW: Here is a valid JSON object matching the ProjectBrief schema:
+
+```json
+{
+  "title": "Smart Home Automation System",
+  "scenario": "You are a member of a development team tasked with designing a comprehensive smart home automation system. The system should integrate various devices and sensors to provide a seamless and efficient living experience. Your contribution to this project is to design and implement a smart lighting control module. This module should be able to control and monitor the lig...
+Error parsing project: 12 validation errors for ProjectBrief
+rubric.criteria.0.levels.0
+  Input should be a valid string [type=string_type, input_value={'level': 'Excellent', 'd..., 'points_possible': 10}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+rubric.criteria.0.levels.1
+  Input should be a valid string [type=string_type, input_value={'level': 'Good', 'descri..., 'points_possible': 10}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+rubric.criteria.0.levels.2
+  Input should be a valid string [type=string_type, input_value={'level': 'Fair', 'descri..., 'points_possible': 10}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+rubric.criteria.0.levels.3
+  Input should be a valid string [type=string_type, input_value={'level': 'Poor', 'descri..., 'points_possible': 10}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+rubric.criteria.1.levels.0
+  Input should be a valid string [type=string_type, input_value={'level': 'Excellent', 'd..., 'points_possible': 10}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+rubric.criteria.1.levels.1
+  Input should be a valid string [type=string_type, input_value={'level': 'Good', 'descri..., 'points_possible': 10}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+rubric.criteria.1.levels.2
+  Input should be a valid string [type=string_type, input_value={'level': 'Fair', 'descri..., 'points_possible': 10}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+rubric.criteria.1.levels.3
+  Input should be a valid string [type=string_type, input_value={'level': 'Poor', 'descri..., 'points_possible': 10}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+rubric.criteria.2.levels.0
+  Input should be a valid string [type=string_type, input_value={'level': 'Excellent', 'd..., 'points_possible': 10}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+rubric.criteria.2.levels.1
+  Input should be a valid string [type=string_type, input_value={'level': 'Good', 'descri..., 'points_possible': 10}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+rubric.criteria.2.levels.2
+  Input should be a valid string [type=string_type, input_value={'level': 'Fair', 'descri..., 'points_possible': 10}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+rubric.criteria.2.levels.3
+  Input should be a valid string [type=string_type, input_value={'level': 'Poor', 'descri..., 'points_possible': 10}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+DEBUG PROJECT FULL: Here is a valid JSON object matching the ProjectBrief schema:
+
+```json
+{
+  "title": "Smart Home Automation System",
+  "scenario": "You are a member of a development team tasked with designing a comprehensive smart home automation system. The system should integrate various devices and sensors to provide a seamless and efficient living experience. Your contribution to this project is to design and implement a smart lighting control module. This module should be able to control and monitor the lighting in different rooms of the house, adjust brightness and color based on the time of day, and integrate with other devices such as thermostats and security systems.",
+  "deliverables": [
+    "A detailed design document outlining the smart lighting control module's functionality and integration with other devices",
+    "A working prototype of the smart lighting control module using a programming language of your choice",
+    "A test plan and results demonstrating the module's functionality and performance"
+  ],
+  "rubric": {
+    "criteria": [
+      {
+        "criterion": "Design Document",
+        "weight": 0.3,
+        "levels": [
+          {
+            "level": "Excellent",
+            "description": "The design document is clear, concise, and comprehensive. It provides a detailed overview of the module's functionality and integration with other devices.",
+            "points": 9,
+            "points_possible": 10
+          },
+          {
+            "level": "Good",
+            "description": "The design document is good but lacks some details. It provides a general overview of the module's functionality and integration with other devices.",
+            "points": 7,
+            "points_possible": 10
+          },
+          {
+            "level": "Fair",
+            "description": "The design document is fair but lacks significant details. It provides a limited overview of the module's functionality and integration with other devices.",
+            "points": 5,
+            "points_possible": 10
+          },
+          {
+            "level": "Poor",
+            "description": "The design document is poor and lacks most details. It does not provide a clear overview of the module's functionality and integration with other devices.",
+            "points": 3,
+            "points_possible": 10
+          }
+        ]
+      },
+      {
+        "criterion": "Working Prototype",
+        "weight": 0.4,
+        "levels": [
+          {
+            "level": "Excellent",
+            "description": "The prototype is fully functional and demonstrates all the required features.",
+            "points": 9,
+            "points_possible": 10
+          },
+          {
+            "level": "Good",
+            "description": "The prototype is mostly functional but lacks some features.",
+            "points": 7,
+            "points_possible": 10
+          },
+          {
+            "level": "Fair",
+            "description": "The prototype is partially functional and lacks significant features.",
+            "points": 5,
+            "points_possible": 10
+          },
+          {
+            "level": "Poor",
+            "description": "The prototype is not functional.",
+            "points": 3,
+            "points_possible": 10
+          }
+        ]
+      },
+      {
+        "criterion": "Test Plan and Results",
+        "weight": 0.3,
+        "levels": [
+          {
+            "level": "Excellent",
+            "description": "The test plan is comprehensive and the results demonstrate the module's functionality and performance.",
+            "points": 9,
+            "points_possible": 10
+          },
+          {
+            "level": "Good",
+            "description": "The test plan is good but lacks some details. The results demonstrate the module's functionality and performance.",
+            "points": 7,
+            "points_possible": 10
+          },
+          {
+            "level": "Fair",
+            "description": "The test plan is fair but lacks significant details. The results do not fully demonstrate the module's functionality and performance.",
+            "points": 5,
+            "points_possible": 10
+          },
+          {
+            "level": "Poor",
+            "description": "The test plan is poor and lacks most details. The results do not demonstrate the module's functionality and performance.",
+            "points": 3,
+            "points_possible": 10
+          }
+        ]
+      }
+    ],
+    "reference_answer": "A well-designed and fully functional smart lighting control module that integrates with other devices and demonstrates excellent performance."
+  }
+}
+```
+
+This project brief outlines a comprehensive smart home automation system with a focus on designing and implementing a smart lighting control module. The deliverables include a detailed design document, a working prototype, and a test plan with results. The rubric assesses the design document, working prototype, and test plan and results, with weights assigned to each criterion. The reference answer provides a description of an ideal submission.
+INFO:     127.0.0.1:51817 - "POST /api/generate-lesson HTTP/1.1" 200 OK
