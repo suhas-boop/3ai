@@ -47,7 +47,7 @@ class LLMClient:
                 messages=[{"role": "user", "content": prompt}],
                 temperature=0.6,
                 top_p=0.95,
-                max_tokens=4096,
+                max_tokens=8192,
                 frequency_penalty=0,
                 presence_penalty=0,
                 stream=False
@@ -66,6 +66,49 @@ class LLMClient:
         except Exception as e:
             logger.error(f"Error calling Nvidia API: {e}")
             return f"Error generating content: {e}"
+
+    def stream_complete(self, prompt: str, metadata: Optional[Dict[str, str]] = None):
+        """
+        Generate a streaming completion for the given prompt.
+        Yields chunks of text as they arrive.
+        """
+        if self.provider == "stub":
+            yield f"[{self.provider} completion placeholder]\nPrompt summary: {prompt[:200]}"
+            return
+
+        try:
+            completion = self.client.chat.completions.create(
+                model=self.model_name,
+                messages=[{"role": "user", "content": prompt}],
+                temperature=0.6,
+                top_p=0.95,
+                max_tokens=8192,
+                frequency_penalty=0,
+                presence_penalty=0,
+                stream=True
+            )
+            
+            in_think_block = False
+            
+            for chunk in completion:
+                if chunk.choices and chunk.choices[0].delta.content:
+                    content = chunk.choices[0].delta.content
+                    
+                    # Very simple block stripping for stream
+                    if "<think>" in content:
+                        in_think_block = True
+                        content = content.replace("<think>", "")
+                    
+                    if "</think>" in content:
+                        in_think_block = False
+                        content = content.split("</think>")[-1]
+                        
+                    if not in_think_block and content:
+                        yield content
+
+        except Exception as e:
+            logger.error(f"Error streaming Nvidia API: {e}")
+            yield f"Error generating content: {e}"
 
     def parse_json(self, text: str) -> Dict[str, Any]:
         """Helper to parse JSON from LLM output, handling markdown code blocks and loose JSON."""

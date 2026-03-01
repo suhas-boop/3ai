@@ -1,0 +1,167 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id      String   @id @default(cuid())
+  name    String
+  email   String   @unique
+  course  Course[]
+  uploads Upload[]
+}
+
+model Course {
+  id              String   @id @default(cuid())
+  ownerId         String
+  owner           User     @relation(fields: [ownerId], references: [id])
+  title           String
+  topic           String
+  targetAudience  String // Beginner|Intermediate|Advanced|Mixed
+  durationWeeks   Int
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  source          String // Generated|Uploaded
+  status          String // Draft|Published
+  prerequisites   String @default("[]") // JSON array of strings
+
+  modules         Module[]
+}
+
+model Module {
+  id                 String   @id @default(cuid())
+  courseId           String
+  course             Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  orderIndex         Int
+  title              String
+  subtopic           String
+  level              String // Beginner|Intermediate|Advanced
+  estimatedMinutes   Int
+  learningObjectives String // Stored as JSON string
+  summary            String
+
+  assets             Asset[]
+  recommendations    Recommendation[]
+}
+
+model Asset {
+  id        String   @id @default(cuid())
+  moduleId  String
+  module    Module   @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  type      String // Slides|Reading|Assignment|Notes|ExternalLinks
+  title     String
+  content   String
+  metadata  String // Stored as JSON string
+  createdAt DateTime @default(now())
+}
+
+model Recommendation {
+  id              String   @id @default(cuid())
+  moduleId        String
+  module          Module   @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+  type            String // Paper|GitHubProject|ImplementationIdea
+  title           String
+  url             String
+  summary         String
+  tags            String // Stored as JSON string
+  publishedDate   DateTime?
+  savedByTeacher  Boolean  @default(false)
+  createdAt       DateTime @default(now())
+}
+
+model Upload {
+  id            String   @id @default(cuid())
+  ownerId       String
+  owner         User     @relation(fields: [ownerId], references: [id])
+  fileName      String
+  mimeType      String
+  parsedTopic   String?
+  parsedOutline String? // JSON string
+  createdAt     DateTime @default(now())
+
+  files         UploadFile[]
+}
+
+model UploadFile {
+  id            String   @id @default(cuid())
+  uploadId      String
+  upload        Upload   @relation(fields: [uploadId], references: [id], onDelete: Cascade)
+  fileName      String
+  mimeType      String
+  rawText       String
+  createdAt     DateTime @default(now())
+}
+
+model SearchCache {
+  id          String   @id @default(cuid())
+  query       String   @unique
+  resultsJson String   // JSON array of citations
+  expiresAt   DateTime
+  createdAt   DateTime @default(now())
+}
+
+model Progress {
+  id               String   @id @default(cuid())
+  studentId        String
+  moduleId         String
+  slideIndex       Int      @default(0)
+  completed        Boolean  @default(false)
+  lastSeenAt       DateTime @default(now())
+  timeSpentSeconds Int      @default(0)
+  mastery          String?  // Low|Medium|High
+  updatedAt        DateTime @updatedAt
+  
+  @@unique([studentId, moduleId])
+}
+
+model StudentPreferences {
+  id               String   @id @default(cuid())
+  studentId        String   @unique
+  pace             String   @default("Normal") // Slow|Normal|Fast
+  style            String   @default("Lecture") // Socratic|Lecture|ExamplesFirst|QuizFirst
+  verbosity        String   @default("Balanced") // Concise|Balanced|Detailed
+  allowWebBrowsing Boolean  @default(true)
+  background       String?
+  goals            String?
+}
+
+model StudentKnowledge {
+  id                 String    @id @default(cuid())
+  studentId          String
+  moduleId           String
+  understandingScore Int       @default(0) // 0-100
+  misconceptions     String    @default("[]") // JSON array of strings
+  strengths          String    @default("[]") // JSON array of strings
+  lastCheckpointAt   DateTime?
+
+  @@unique([studentId, moduleId])
+}
+
+model TeachingSession {
+  id                 String   @id @default(cuid())
+  studentId          String
+  moduleId           String
+  state              String   @default("Intro") // Intro|Teaching|Checkpoint|QnA|Review|Completed
+  currentSlideIndex  Int      @default(0)
+  lastTutorMessageId String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  
+  messages           ChatMessage[]
+
+  @@unique([studentId, moduleId])
+}
+
+model ChatMessage {
+  id                String   @id @default(cuid())
+  sessionId         String
+  session           TeachingSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  role              String   // user|assistant
+  content           String
+  citationsJson     String?  // Optional JSON string of citations
+  createdAt         DateTime @default(now())
+}

@@ -1,0 +1,71 @@
+INFO:     Will watch for changes in these directories: ['/Users/admin/Documents/AI_Agents/Autonomous_academy']
+INFO:     Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
+INFO:     Started reloader process [16310] using StatReload
+/Users/admin/Documents/AI_Agents/Autonomous_academy/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+INFO:     Started server process [16368]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:56051 - "POST /api/tutor/qa/stream HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56063 - "POST /api/tutor/qa/stream HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56105 - "POST /api/tutor/qa/stream HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56115 - "POST /api/tutor/qa/stream HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56115 - "POST /api/tutor/qa/stream HTTP/1.1" 200 OK
+Failed to parse JSON: Invalid control character at: line 4 column 340 (char 392)
+Content: {
+  "needs_web_search": false,
+  "search_query": "",
+  "answer": "Welcome to the next topic in our database course. The current slide is about Entity-Relationship Modeling. Entity-Relationship Modeling, also known as ER Modeling, is a technique used to design and represent the structure of a database. It's a visual way to describe the relationships between different entities in a database.
+
+In ER Modeling, we have three main components:
+
+1. Entities: These are the objects or concepts that we want to store data about. For example, in a university database, students, professors, and courses could be entities.
+
+2. Attributes: These are the characteristics or properties of an entity. For example, a student entity might have attributes like student ID, name, and email.
+
+3. Relationships: These describe how different entities are connected to each other. For example, a student might be enrolled in a course, or a professor might be teaching a course.
+
+ER Modeling is an essential step in designing a database, as it helps us to identify the entities, attributes, and relationships that are relevant to our application. It also helps us to avoid data redundancy and inconsistencies.
+
+Let's consider an example. Suppose we're designing a database for a library. We might have entities like books, authors, and borrowers. The relationships between these entities could be: a book is written by an author, a borrower checks out a book.
+
+Now, can you think of how we might represent the relationship between a book and its authors in an ER diagram?"
+}
+INFO:     127.0.0.1:56154 - "POST /api/tutor/qa/stream HTTP/1.1" 200 OK
+WARNING:  StatReload detected changes in 'src/autonomous_academy/services/tutor.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [16368]
+/Users/admin/Documents/AI_Agents/Autonomous_academy/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+INFO:     Started server process [18152]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:56210 - "POST /api/tutor/qa/stream HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56221 - "POST /api/tutor/qa/stream HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56286 - "POST /api/tutor/qa/stream HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56298 - "POST /api/tutor/qa/stream HTTP/1.1" 200 OK
+INFO:     127.0.0.1:56303 - "POST /api/tutor/qa/stream HTTP/1.1" 200 OK
+WARNING:  StatReload detected changes in 'src/autonomous_academy/services/tutor.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [18152]
+/Users/admin/Documents/AI_Agents/Autonomous_academy/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+INFO:     Started server process [20339]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+WARNING:  StatReload detected changes in 'src/autonomous_academy/services/tutor.py'. Reloading...
+INFO:     Shutting down
+INFO:     Waiting for application shutdown.
+INFO:     Application shutdown complete.
+INFO:     Finished server process [20339]
+/Users/admin/Documents/AI_Agents/Autonomous_academy/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
+  warnings.warn(
+INFO:     Started server process [20388]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     127.0.0.1:57198 - "POST /api/tutor/qa/stream HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57205 - "POST /api/tutor/qa/stream HTTP/1.1" 200 OK

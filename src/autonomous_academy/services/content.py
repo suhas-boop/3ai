@@ -10,7 +10,69 @@ from autonomous_academy.schemas import Charter, Lesson, Module, SourceRef, Slide
 # ... imports ...
 
 
-from duckduckgo_search import DDGS
+from ddgs import DDGS
+import requests
+from bs4 import BeautifulSoup
+
+def generate_quiz_from_content(url: str, title: str, context: str, llm: LLMClient) -> List[Item]:
+    # 1. Try to fetch content
+    content_text = ""
+    try:
+        # Simple fetch with timeout
+        resp = requests.get(url, timeout=5, headers={"User-Agent": "Mozilla/5.0"})
+        if resp.status_code == 200:
+            soup = BeautifulSoup(resp.text, 'html.parser')
+            # remove scripts and styles
+            for script in soup(["script", "style"]):
+                script.extract()
+            text = soup.get_text()
+            # clean lines
+            lines = (line.strip() for line in text.splitlines())
+            chunks = (phrase.strip() for line in lines for phrase in line.split("  "))
+            content_text = '\n'.join(chunk for chunk in chunks if chunk)
+            content_text = content_text[:5000] # Limit context
+    except Exception as e:
+        print(f"Failed to fetch {url}: {e}")
+        
+    # 2. Generate Quiz
+    if content_text:
+        prompt = prompts.ASSESSMENT_PROMPT.format(
+            objectives=[f"Understand content from {title}"],
+            count=5,
+            references=f"Content: {content_text}"
+        )
+    else:
+        prompt = prompts.ASSESSMENT_PROMPT.format(
+            objectives=[f"Understand concepts related to {title}"],
+            count=5,
+            references=f"Title: {title}, URL: {url}, Context: {context}"
+        )
+        
+    prompt += "\n\nRespond with a valid JSON list of Item objects (mix of mcq and sa)."
+    
+    try:
+        response_text = llm.complete(prompt)
+        data = llm.parse_json(response_text)
+        if isinstance(data, list):
+            items = []
+            for i, item in enumerate(data):
+                item['module_id'] = 'url-quiz' 
+                item['id'] = f"url-quiz-{i}"
+                items.append(Item(**item))
+            if items:
+                 return items
+    except Exception as e:
+        print(f"Error generating/parsing url quiz: {e}")
+        
+    # Fallback if LLM fails
+    return [
+        Item(id="q1", type="mcq", stem=f"What is the main topic of {title}?", options=["Topic A", "Topic B"], answer="Topic A"),
+        Item(id="q2", type="sa", stem=f"Summarize the key takeaway from {title}.", answer="Summary"),
+        Item(id="q3", type="mcq", stem="True or False: This source is relevant.", options=["True", "False"], answer="True"),
+        Item(id="q4", type="mcq", stem="Which concept was discussed?", options=["Concept X", "Concept Y"], answer="Concept X"),
+        Item(id="q5", type="sa", stem="How does this apply to the module?", answer="Application")
+    ]
+
 
 def generate_reading_list(topic: str, objectives: List[str], outline: List[str], audience: str, llm: LLMClient) -> List[SourceRef]:
     # 1. search for real sources with multiple queries
@@ -60,15 +122,34 @@ def generate_reading_list(topic: str, objectives: List[str], outline: List[str],
         if isinstance(data, list):
             # Ensure ID is string
             cleaned_data = []
+            import requests # ensure imported
             for item in data:
                 if 'id' in item:
                     item['id'] = str(item['id'])
+                
+                # Check for 404s or broken links
+                url = item.get('url')
+                if url and url.startswith('http'):
+                    try:
+                        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
+                        # Use GET with stream=True to avoid downloading full body, HEAD is often blocked
+                        resp = requests.get(url, headers=headers, timeout=3, stream=True)
+                        if resp.status_code == 404 or resp.status_code >= 500:
+                            print(f"Filtered out broken LLM link: {url} (Status: {resp.status_code})")
+                            continue # skip this item
+                        resp.close()
+                    except Exception as e:
+                       print(f"Filtered out unreachable link: {url} ({e})")
+                       continue # skip if it times out or fails to resolve
+                       
                 cleaned_data.append(item)
-            return [SourceRef(**item) for item in cleaned_data]
+                
+            if cleaned_data:
+                return [SourceRef(**item) for item in cleaned_data]
     except Exception as e:
-        print(f"Error parsing reading list: {e}")
+        print(f"Error parsing reading list or validating: {e}")
     
-    # Fallback: Return raw search results as sources if LLM parsing fails
+    # Fallback: Return raw search results as sources if LLM parsing fails or all links were broken
     if unique_results:
          return [SourceRef(id=f"search-{i}", title=r['title'], url=r['url']) for i, r in enumerate(unique_results[:3])]
 
@@ -76,8 +157,8 @@ def generate_reading_list(topic: str, objectives: List[str], outline: List[str],
 
 
 def generate_slides(topic: str, content_md: str, audience: str, duration_minutes: int, llm: LLMClient) -> List[Slide]:
-    # Calculate target slide count: ~3 mins per slide or at least 5
-    target_count = max(5, duration_minutes // 3)
+    # Calculate target slide count: ~6 mins per slide, cap at 10 to avoid token limits
+    target_count = min(10, max(5, duration_minutes // 6))
     
     prompt = prompts.SLIDES_PROMPT.format(
         topic=topic,
@@ -93,7 +174,31 @@ def generate_slides(topic: str, content_md: str, audience: str, duration_minutes
     try:
         data = llm.parse_json(response_text)
         if isinstance(data, list):
-            return [Slide(**item) for item in data]
+            slides = [Slide(**item) for item in data]
+            for slide in slides:
+                if slide.requires_interactive_website:
+                    try:
+                        print(f"Generating interactive website for slide: {slide.title}")
+                        html_prompt = f"Create an extensive, highly detailed, and interactive HTML mini-website for the subtopic '{slide.title}' in the context of the course '{topic}'.\n\nEnsure it uses TailwindCSS via CDN (`<script src=\"https://cdn.tailwindcss.com\"></script>`) and vanilla JS. It must cover an hour's worth of interactive concept-exploration, hands-on examples, and complex visualizations. Make the UI visually stunning and responsive.\n\n"
+                        html_prompt += "CRITICAL INTERACTIVITY REQUIREMENT:\n"
+                        html_prompt += "1. You MUST include at least 3 distinct interactable layout entities (like diagrams, blocks of text, or illustrations) and give them clear HTML `id` attributes (e.g. `id=\"concept-1\"`).\n"
+                        html_prompt += "2. You MUST include a `<script>` block that listens for messages from the parent window:\n"
+                        html_prompt += "   `window.addEventListener('message', (event) => { if(event.data.type === 'narration_action') { /* add CSS class or animate event.data.entityId based on event.data.action */ } });`\n"
+                        html_prompt += "3. The JavaScript must be robust enough to apply highlight borders, glow effects, or bounce animations when it receives a 'highlight' or 'focus' action for a specific entity ID.\n\n"
+                        html_prompt += "Return EXACTLY the valid raw HTML string and nothing else. NO markdown blocks."
+                        
+                        html_response = llm.complete(html_prompt)
+                        html_response = html_response.strip()
+                        if html_response.startswith("```html"):
+                            html_response = html_response[7:]
+                        elif html_response.startswith("```"):
+                            html_response = html_response[3:]
+                        if html_response.endswith("```"):
+                            html_response = html_response[:-3]
+                        slide.website_html = html_response.strip()
+                    except Exception as e:
+                        print(f"Failed to generate interactive website for {slide.title}: {e}")
+            return slides
     except Exception as e:
         print(f"Error parsing slides: {e}")
         print(f"DEBUG SLIDES FULL RESPONSE: {response_text}") # Log full response on error
@@ -120,6 +225,9 @@ def generate_lesson(module: Module, tone: str, llm: LLMClient) -> Lesson:
         elif isinstance(accessibility_notes, dict):
             # Flatten values if it's a dict
             accessibility_notes = [str(v) for v in accessibility_notes.values()]
+        elif isinstance(accessibility_notes, list):
+            # Force string representation for complex items from LLM
+            accessibility_notes = [json.dumps(n) if isinstance(n, (dict, list)) else str(n) for n in accessibility_notes]
 
         return Lesson(
             id=f"{module.id}-lesson",
@@ -250,6 +358,19 @@ def generate_module_content(module: Module, course_topic: str, audience: str, to
         # Fallback to simple search link
         reading_list = [SourceRef(id="ref-fallback", title=f"Search: {module.title}", url=f"https://www.google.com/search?q={module.title.replace(' ', '+')}")]
     
+    # 2.5. Assess: Generate Quizzes for Reading List (Pre-generation)
+    for source in reading_list:
+        try:
+            # defined in this file
+            source.quiz = generate_quiz_from_content(
+                url=source.url or "",
+                title=source.title or "Reading",
+                context=f"Module: {module.title}",
+                llm=llm
+            )
+        except Exception as e:
+            print(f"Failed to pre-generate quiz for {source.url}: {e}")
+    
     # 3. Present: Slides (Based on content)
     slides = []
     try:
@@ -274,14 +395,14 @@ def generate_module_content(module: Module, course_topic: str, audience: str, to
             except Exception as inner_e:
                 print(f"Failed to generate coding challenge: {inner_e}")
             
-            # Add 2 more standard questions
-            standard_quizzes = generate_quiz(module.objectives, count=2, llm=llm)
+            # Add 4 more standard questions (Total 5: 1 Code + 4 Standard)
+            standard_quizzes = generate_quiz(module.objectives, count=4, llm=llm)
             for q in standard_quizzes:
                 q.module_id = module.id
                 quizzes.append(q)
         else:
-            # Generate 3 standard questions
-            quizzes = generate_quiz(module.objectives, count=3, llm=llm)
+            # Generate 5 standard questions
+            quizzes = generate_quiz(module.objectives, count=5, llm=llm)
             for q in quizzes:
                 q.module_id = module.id
     except Exception as e:
@@ -314,6 +435,7 @@ def generate_charter(
     constraints: List[str],
     sources: List[SourceRef],
     llm: LLMClient,
+    additional_context: str = "",
 ) -> Charter:
     prompt = prompts.CHARTER_PROMPT.format(
         audience=audience,
@@ -324,6 +446,9 @@ def generate_charter(
         constraints=constraints,
         sources=[s.model_dump() for s in sources],
     )
+    if additional_context:
+        prompt += f"\n\nAdditional Context (from uploaded materials/research):\n{additional_context}\n"
+    
     prompt += "\n\nRespond with a valid JSON object matching the Charter schema structure."
     
     response_text = llm.complete(prompt)
@@ -447,3 +572,21 @@ def generate_syllabus(charter: Charter, sources: List[SourceRef], module_count: 
 
     # Final validation of count
     return modules[:module_count]
+
+def generate_prerequisites(topic: str, audience: str, llm: LLMClient) -> List[str]:
+    prompt = prompts.PREREQUISITES_PROMPT.format(
+        topic=topic,
+        audience=audience
+    )
+    
+    response_text = llm.complete(prompt)
+    try:
+        data = llm.parse_json(response_text)
+        if isinstance(data, list):
+             return [str(d) for d in data]
+    except Exception as e:
+        print(f"Error parsing prerequisites: {e}")
+        
+    if audience.lower() == "beginner":
+        return ["No prior knowledge required."]
+    return ["Basic understanding of the subject area."]

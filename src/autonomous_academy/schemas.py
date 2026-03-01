@@ -9,6 +9,7 @@ class SourceRef(BaseModel):
     id: str
     title: Optional[str] = None
     url: Optional[str] = None
+    quiz: Optional[List[Item]] = Field(default=None)
 
 
 class Charter(BaseModel):
@@ -33,11 +34,31 @@ class Module(BaseModel):
     references: List[SourceRef] = Field(default_factory=list)
 
 
+from typing import List, Optional, Literal, Dict, Any
+
+class Visual(BaseModel):
+    kind: Literal['diagram', 'image', 'chart', 'table', 'code']
+    title: str
+    alt: str
+    src: Optional[str] = None
+    mermaid: Optional[str] = None
+    code: Optional[Dict[str, str]] = None  # { "language": "python", "content": "..." }
+    caption: str
+
+class SlideInteraction(BaseModel):
+    checkpointQuestion: str
+    commonMistake: str
+    realWorldExample: str
+
 class Slide(BaseModel):
     title: str
     bullets: List[str]
     speaker_notes: Optional[str] = None
     image_description: Optional[str] = None
+    visuals: List[Visual] = Field(default_factory=list)
+    interaction: Optional[SlideInteraction] = None
+    website_html: Optional[str] = None
+    requires_interactive_website: bool = False
 
 
 class RubricCriterion(BaseModel):

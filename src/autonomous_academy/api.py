@@ -1,17 +1,17 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import List, Optional
 
 from autonomous_academy.llm import LLMClient
-from autonomous_academy.schemas import Charter, Module, Lesson, SourceRef
+from autonomous_academy.schemas import Charter, Module, Lesson, SourceRef, Item
 from autonomous_academy.services import content
 
 app = FastAPI(title="Autonomous Academy API")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:5174", "http://127.0.0.1:5174"],
+    allow_origins=["*"], # Allow all for dev
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -26,74 +26,20 @@ class AudienceLevel(str, Enum):
     INTERMEDIATE = "Intermediate"
     ADVANCED = "Advanced"
 
-class CourseDuration(str, Enum):
-    FIVE_SESSION = "5-Session"
-    QUARTER = "Quarter"
-    SEMESTER = "Semester"
 
-class CourseRequest(BaseModel):
+class PrerequisitesRequest(BaseModel):
     topic: str
     audience_level: AudienceLevel = AudienceLevel.BEGINNER
-    course_duration: CourseDuration = CourseDuration.FIVE_SESSION
-    tone: str = "supportive"
 
-class CourseResponse(BaseModel):
-    charter: Charter
-    modules: List[Module]
-    sample_lesson: Lesson
-
-def get_sample_sources(topic: str) -> List[SourceRef]:
-    # In a real app, we'd search for this
-    return [
-        SourceRef(id="doc-1", title=f"{topic} Overview", url=f"https://example.com/{topic.lower()}"),
-        SourceRef(id="doc-2", title="Advanced Concepts", url=f"https://example.com/{topic.lower()}-advanced"),
-    ]
-
-@app.post("/api/generate-course", response_model=CourseResponse)
-async def generate_course(request: CourseRequest):
+@app.post("/api/generate-prerequisites", response_model=List[str])
+async def generate_prerequisites_endpoint(request: PrerequisitesRequest):
     try:
-        sources = get_sample_sources(request.topic)
-        
-        # Map duration to hours and module count
-        duration_map = {
-            CourseDuration.FIVE_SESSION: {"hours": 10, "modules": 5},
-            CourseDuration.QUARTER: {"hours": 100, "modules": 24},
-            CourseDuration.SEMESTER: {"hours": 160, "modules": 48},
-        }
-        config = duration_map[request.course_duration]
-        time_budget = config["hours"]
-        module_count = config["modules"]
-        
-        # Construct specific audience string
-        audience_str = f"{request.audience_level.value} students interested in {request.topic}"
-        
-        # 1. Generate Charter
-        charter = content.generate_charter(
-            audience=audience_str,
-            outcomes=[f"Master {request.topic} at a {request.audience_level.value} level", "Apply core concepts"],
-            prerequisites=["Basic knowledge"] if request.audience_level == AudienceLevel.BEGINNER else ["Prior experience"],
-            time_budget_hours=time_budget,
-            tone=request.tone,
-            constraints=[f"{request.course_duration.value} structure", f"Exactly {module_count} modules", "Practical focus"],
-            sources=sources,
+        prereqs = content.generate_prerequisites(
+            topic=request.topic,
+            audience=request.audience_level.value,
             llm=llm
         )
-        
-        # 2. Generate Syllabus
-        modules = content.generate_syllabus(charter, sources, module_count, llm)
-        
-        # 3. Generate Sample Lesson (first module)
-        if modules:
-            lesson = content.generate_lesson(modules[0], tone=request.tone, llm=llm)
-        else:
-            raise HTTPException(status_code=500, detail="Failed to generate syllabus modules")
-            
-        return CourseResponse(
-            charter=charter,
-            modules=modules,
-            sample_lesson=lesson
-        )
-        
+        return prereqs
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -129,6 +75,8 @@ async def generate_lesson_endpoint(request: LessonGenerationRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+
+
 @app.get("/api/download-slides/{module_id}")
 async def download_slides(module_id: str):
     if module_id not in slides_cache:
@@ -159,6 +107,110 @@ async def download_slides(module_id: str):
              raise HTTPException(status_code=500, detail=f"Failed to generate PPTX: {str(e)} -> {str(local_e)}")
         raise HTTPException(status_code=500, detail=f"Failed to generate PPTX: {str(e)}")
 
+from autonomous_academy.schemas import Slide
+import uuid
+
+@app.post("/api/build-pptx")
+async def build_pptx(slides: List[Slide]):
+    if not slides:
+        raise HTTPException(status_code=400, detail="Slide array cannot be empty.")
+    
+    temp_id = str(uuid.uuid4())[:8]
+    filename = f"custom_presentation_{temp_id}.pptx"
+    filepath = os.path.join("/tmp", filename)
+    
+    try:
+        # Extract a decent topic name for remote service
+        topic = slides[0].title if slides and slides[0].title else "Custom Presentation"
+        
+        # Build via Remote Service overriding the content
+        slides_service.generate_remote_pptx(topic, len(slides), filepath, slides_content=slides)
+        
+        return FileResponse(filepath, filename=filename, media_type="application/vnd.openxmlformats-officedocument.presentationml.presentation")
+    except Exception as e:
+        print(f"Remote builder failed: {e}. Falling back to local generator.")
+        try:
+            slides_service.generate_pptx(slides, filepath)
+            return FileResponse(filepath, filename=filename, media_type="application/vnd.openxmlformats-officedocument.presentationml.presentation")
+        except Exception as local_e:
+             raise HTTPException(status_code=500, detail=f"Failed to build PPTX: {str(e)} -> {str(local_e)}")
+
 @app.get("/health")
 async def health_check():
     return {"status": "ok"}
+
+
+
+# --- Tutor Endpoints ---
+from autonomous_academy.services import tutor
+
+class NarrateSlideRequest(BaseModel):
+    courseTopic: str
+    moduleLevel: str
+    moduleObjectives: str
+    slideTitle: str
+    slideBullets: List[str]
+    slideNotes: Optional[str] = None
+
+@app.post("/api/tutor/narrate")
+async def narrate_slide(request: NarrateSlideRequest):
+    try:
+        return tutor.narrate_slide(
+            course_topic=request.courseTopic,
+            module_level=request.moduleLevel,
+            objectives=request.moduleObjectives,
+            slide_title=request.slideTitle,
+            slide_bullets=request.slideBullets,
+            slide_notes=request.slideNotes,
+            llm=llm
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+class TutorQARequest(BaseModel):
+    courseTopic: str
+    moduleLevel: str
+    moduleObjectives: str
+    slideContext: str
+    question: str
+    chatHistory: List[dict] = []
+    mode: str = "local" # local, assess_or_answer, synthesize, local_fallback
+    web_context: Optional[str] = None
+
+from fastapi.responses import StreamingResponse
+
+@app.post("/api/tutor/qa/stream")
+async def tutor_qa_stream(request: TutorQARequest):
+    try:
+        # Return a StreamingResponse utilizing the generator in tutor
+        generator = tutor.stream_answer_question(
+            course_topic=request.courseTopic,
+            module_level=request.moduleLevel,
+            objectives=request.moduleObjectives,
+            slide_context=request.slideContext,
+            question=request.question,
+            chat_history=request.chatHistory,
+            mode=request.mode,
+            web_context=request.web_context,
+            llm=llm
+        )
+        return StreamingResponse(generator, media_type="text/event-stream")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/tutor/qa")
+async def tutor_qa(request: TutorQARequest):
+    try:
+        return tutor.answer_question(
+            course_topic=request.courseTopic,
+            module_level=request.moduleLevel,
+            objectives=request.moduleObjectives,
+            slide_context=request.slideContext,
+            question=request.question,
+            chat_history=request.chatHistory,
+            mode=request.mode,
+            web_context=request.web_context,
+            llm=llm
+        )
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

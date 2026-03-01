@@ -140,7 +140,7 @@ def generate_remote_pptx(topic: str, slide_count: int, filename: str, slides_con
         # 1. Generate
         print(f"Requesting presentation generation for: {topic}")
         # print(f"DEBUG PROMPT: {prompt_content[:500]}...")
-        response = requests.post(generate_endpoint, json=payload, timeout=120)
+        response = requests.post(generate_endpoint, json=payload, timeout=300)
         response.raise_for_status()
         
         data = response.json()

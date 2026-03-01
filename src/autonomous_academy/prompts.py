@@ -30,22 +30,22 @@ Return a SINGLE JSON LIST of Module objects.
 Note: 'checkpoints' should be a list of strings (descriptions only).
 Example: [{{ "id": "mod-1", "checkpoints": ["Quiz 1", "Lab 1"], ... }}, {{ "id": "mod-2", ... }}]"""
 
-LESSON_PROMPT = """Create a structured lesson plan.
+LESSON_PROMPT = """Create an exceptionally detailed, rigorous, and authentic lesson plan.
 - Module objectives: {objectives}
 - Duration (minutes): {duration}
 - References: {references}
 - Tone: {tone}
 
 Tasks:
-1) Outline: Create a 5-9 bullet point outline.
-2) Content: Write a detailed Markdown lesson. **YOU MUST USE THE FOLLOWING STRUCTURE**:
-   - **# Title**
-   - **## Introduction**: Hook the learner and explain relevance.
-   - **## Learning Objectives**: Briefly state what will be learned.
-   - **## Core Concepts**: Deep dive into the material (use subheaders like ### Concept 1).
-   - **## Practical Application**: A worked example, case study, or code snippet.
-   - **## Summary**: content recap.
-   - Ensure content depth fits the {duration} minute timeframe.
+1) Outline: Create a highly specific 5-9 bullet point outline.
+2) Content: Write a dense, comprehensive Markdown lesson. **YOU MUST USE THE FOLLOWING STRUCTURE**:
+   - **# Title**: Academic and precise.
+   - **## Introduction**: Hook the learner with real-world relevance, historical context, or a driving question.
+   - **## Learning Objectives**: Clearly state actionable outcomes.
+   - **## Core Concepts**: Deep dive into the material. You MUST provide extensive details, real-world examples, and factual data. DO NOT use generic filler text.
+   - **## Practical Application**: A complex worked example, an in-depth case study, or a fully functioning code snippet. Walk through it explicitly step-by-step.
+   - **## Summary**: A rigorous synthesis of the material.
+   - Ensure the content is extremely substantial and intellectually dense enough to fill a {duration} minute lecture.
 3) Slide outline (title + bullets).
 4) Accessibility notes (alt text, caption reminders).
 Return JSON with outline, content_md, slides_outline, citations, accessibility_notes.
@@ -139,7 +139,7 @@ Tasks:
 
 Return JSON list of SourceRef objects (id, title, url)."""
 
-SLIDES_PROMPT = """Create a detailed slide deck.
+SLIDES_PROMPT = """Create an exceptionally detailed, authentic, and highly informative slide deck.
 - Topic: {topic}
 - Content: {content_md}
 - Audience: {audience}
@@ -147,20 +147,29 @@ SLIDES_PROMPT = """Create a detailed slide deck.
 
 Tasks:
 1) Create EXACTLY {slide_count} slides to ensure the lecture fits the {duration}-minute duration.
-2) **slide 1**: Title Slide.
-3) **slide 2**: Learning Objectives.
-4) **Middle Slides**: Core Concepts.
-   - For TECHNICAL/CODING topics: You MUST alternate between **Concept Slides** and **Code Example Slides**.
-   - Include at least one **"Hands-on Exercise"** slide where students are asked to write code.
-5) **Last slide**: Summary/Recap.
-6) For each slide, provide:
-   - **Title**: Clear and catchy.
-   - **Bullets**: 4-6 detailed points.
-   - **Speaker Notes**: A FULL paragraph of script for the presenter (100+ words).
-   - **Image Description**: A visually descriptive search query.
+2) **Slide Content Must Be Authentic**: Include real data points, factual history, concrete examples, or actual technical architecture details.
+3) **slide 1**: Title Slide with a strong sub-title.
+4) **Middle Slides**: Deep Dive Core Concepts. Alternate between Concept Slides and Code Example Slides if technical.
+5) **Last slide**: Summary/Recap and Next Steps.
+6) **Visuals (CRITICAL)**: EVERY slide must have exactly 1 visual element in `visuals`. 
+   - Across the entire deck, there MUST be at least 4 "diagram" visuals using mermaid syntax (`kind="diagram"`, with `mermaid: "..."`).
+   - If technical, at least 2 "code" visuals total (`kind="code"`, with `code: {{"language": "...", "content": "..."}}`).
+   - DO NOT generate `image` visuals since we do not have an image generation service connected. ALWAYS prefer `diagram` or `code`.
+7) **Interaction (CRITICAL)**: EVERY slide must have an `interaction` object containing:
+   - `checkpointQuestion`: A single question the TA can ask to check understanding of THIS slide.
+   - `commonMistake`: A typical trap or misunderstanding.
+   - `realWorldExample`: A practical, real-world grounding example relating to the slide.
+8) **Interactive Mini-Websites**: For relevant subtopics that would benefit from heavy interactivity, hands-on examples, or complex visualizations, you MUST flag EXACTLY ONE OR TWO slides per module by setting their `requires_interactive_website` boolean field to true. DO NOT generate the HTML here. We will generate the specialized, full hour's worth of interactive HTML in a dedicated secondary step. Leave `website_html` null for now. **CRITICAL: Ensure you set `requires_interactive_website: true` for at least one slide in the module to fulfill the requirement.**
+9) **TOKEN LIMIT WARNING**: Keep `speaker_notes`, `image_description`, and `interaction` strings EXTREMELY concise (max 2 sentences each). Limit to EXACTLY ONE visual per slide.
+10) For each slide, provide:
+   - **title**, **bullets**, **speaker_notes**, **image_description**
+   - **visuals**: List of visuals (kind, title, alt, src, mermaid, code, caption). MAX 1 ITEM.
+   - **interaction**: (checkpointQuestion, commonMistake, realWorldExample)
+   - **requires_interactive_website**: (boolean, true if this slide needs a dedicated mini-website)
+   - **website_html**: (ALWAYS null)
 
-Return JSON list of Slide objects (title, bullets, speaker_notes, image_description).
-**IMPORTANT**: Respond with RAW JSON ONLY. Do not include <think> tags or reasoning. Do not wrap in markdown blocks."""
+Return JSON list of Slide objects.
+**IMPORTANT**: Respond with RAW JSON ONLY. Do not wrap in markdown blocks."""
 
 CODING_CHALLENGE_PROMPT = """Create a coding challenge for this module.
 - Objectives: {objectives}
@@ -189,3 +198,13 @@ TUTOR_PROMPT = """You are a grounded tutor. Use only provided sources.
 - Chunks: {chunks}
 
 If unknown, say you cannot find it and point to the nearest lesson section."""
+
+PREREQUISITES_PROMPT = """You are an academic advisor determining course prerequisites.
+- Topic: {topic}
+- Target Audience: {audience}
+
+Task:
+Identify 3-5 concise, specific prerequisites or prior knowledge requirements needed before taking a course on this topic for this audience.
+If the audience is "Beginner", the prerequisites should be very basic or state "None".
+
+Return a valid JSON list of strings."""

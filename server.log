@@ -1,109 +1,163 @@
 /Users/admin/Documents/AI_Agents/Autonomous_academy/venv/lib/python3.9/site-packages/urllib3/__init__.py:35: NotOpenSSLWarning: urllib3 v2 only supports OpenSSL 1.1.1+, currently the 'ssl' module is compiled with 'LibreSSL 2.8.3'. See: https://github.com/urllib3/urllib3/issues/3020
   warnings.warn(
-INFO:     Started server process [5571]
+INFO:     Started server process [9403]
 INFO:     Waiting for application startup.
 INFO:     Application startup complete.
 INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
-INFO:     127.0.0.1:64233 - "OPTIONS /api/generate-course HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52633 - "OPTIONS /api/generate-course HTTP/1.1" 200 OK
+Error parsing charter: 8 validation errors for Charter
+constraints.0
+  Input should be a valid string [type=string_type, input_value={'type': 'structural', 'd...vered over 5 sessions.'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+constraints.1
+  Input should be a valid string [type=string_type, input_value={'type': 'citation', 'des... 'Advanced Concepts')."}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+constraints.2
+  Input should be a valid string [type=string_type, input_value={'type': 'safety', 'descr...ractions and feedback.'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+constraints.3
+  Input should be a valid string [type=string_type, input_value={'type': 'practical', 'de... theoretical concepts.'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+open_questions.0
+  Input should be a valid string [type=string_type, input_value={'question': 'How will th... 'instructional design'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+open_questions.1
+  Input should be a valid string [type=string_type, input_value={'question': 'What specif...technical requirements'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+open_questions.2
+  Input should be a valid string [type=string_type, input_value={'question': 'How will st...essment and evaluation'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+open_questions.3
+  Input should be a valid string [type=string_type, input_value={'question': 'What additi...ory': 'student support'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
 Generating syllabus chunk 1/1 (Modules 1-5)...
-INFO:     127.0.0.1:64233 - "POST /api/generate-course HTTP/1.1" 200 OK
-INFO:     127.0.0.1:64281 - "OPTIONS /api/generate-lesson HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52633 - "POST /api/generate-course HTTP/1.1" 200 OK
+INFO:     127.0.0.1:52669 - "OPTIONS /api/generate-lesson HTTP/1.1" 200 OK
 /Users/admin/Documents/AI_Agents/Autonomous_academy/src/autonomous_academy/services/content.py:25: RuntimeWarning: This package (`duckduckgo_search`) has been renamed to `ddgs`! Use `pip install ddgs` instead.
   with DDGS() as ddgs:
 DEBUG SLIDES RAW RESPONSE: [
   {
-    "title": "Foundations of Data Structures",
-    "bullets": [],
-    "speaker_notes": "Welcome to this lesson on the foundations of data structures. In this lesson, we'll explore the importance of data structures, discuss the trade-offs between different types, and identify the basic operations that can be performed on them. By the end of this lesson, you should be able to define the importance of data structures in computer science, explain the trade-offs between different data structure...
+    "title": "Foundations of Machine Learning",
+    "bullets": [
+      "Machine Learning is a subset of Artificial Intelligence",
+      "Involves the use of algorithms to enable computers to learn from data",
+      "Allows computers to make predictions or decisions without being explicitly programmed"
+    ],
+    "speaker_notes": "Welcome to the Foundations of Machine Learning lesson. In this lesson, we will explore the definition and importance of Machine Learning, learn the basic concepts...
 DEBUG PROJECT RAW: ```json
 {
-  "title": "Designing an Efficient Library Management System",
-  "scenario": "As part of a larger capstone project, you are tasked with designing a library management system that can efficiently store and retrieve book information. The system should be able to handle a large number of books, authors, and genres. Your task is to design the data structure and implement the basic operations for the book catalog. This module's contribution will focus on the design and implementation of the...
-Error parsing project: 12 validation errors for ProjectBrief
+  "title": "Predicting Student Performance: A Machine Learning Capstone Project",
+  "scenario": "As a data analyst for a school district, you have been tasked with developing a predictive model to forecast student performance in mathematics. The goal is to identify students who may be at risk of failing and provide targeted interventions to improve their chances of success. In this module, you will design and implement a machine learning model to predict student performance based on hi...
+Error parsing project: 15 validation errors for ProjectBrief
 rubric.criteria.0.levels.0
-  Input should be a valid string [type=string_type, input_value={'level': 'Excellent', 'd... correct and efficient'}, input_type=dict]
+  Input should be a valid string [type=string_type, input_value={'level': 'Excellent', 'd...esses data effectively'}, input_type=dict]
     For further information visit https://errors.pydantic.dev/2.12/v/string_type
 rubric.criteria.0.levels.1
-  Input should be a valid string [type=string_type, input_value={'level': 'Good', 'descri... has some minor errors'}, input_type=dict]
+  Input should be a valid string [type=string_type, input_value={'level': 'Good', 'descri...or partially incorrect'}, input_type=dict]
     For further information visit https://errors.pydantic.dev/2.12/v/string_type
 rubric.criteria.0.levels.2
-  Input should be a valid string [type=string_type, input_value={'level': 'Fair', 'descri...has significant errors'}, input_type=dict]
-    For further information visit https://errors.pydantic.dev/2.12/v/string_type
-rubric.criteria.0.levels.3
-  Input should be a valid string [type=string_type, input_value={'level': 'Poor', 'descri...ncorrect or incomplete'}, input_type=dict]
+  Input should be a valid string [type=string_type, input_value={'level': 'Fair', 'descri...ocess data effectively'}, input_type=dict]
     For further information visit https://errors.pydantic.dev/2.12/v/string_type
 rubric.criteria.1.levels.0
-  Input should be a valid string [type=string_type, input_value={'level': 'Excellent', 'd...ustified and efficient'}, input_type=dict]
+  Input should be a valid string [type=string_type, input_value={'level': 'Excellent', 'd...del with high accuracy'}, input_type=dict]
     For further information visit https://errors.pydantic.dev/2.12/v/string_type
 rubric.criteria.1.levels.1
-  Input should be a valid string [type=string_type, input_value={'level': 'Good', 'descri...t has some minor flaws'}, input_type=dict]
+  Input should be a valid string [type=string_type, input_value={'level': 'Good', 'descri...with moderate accuracy'}, input_type=dict]
     For further information visit https://errors.pydantic.dev/2.12/v/string_type
 rubric.criteria.1.levels.2
-  Input should be a valid string [type=string_type, input_value={'level': 'Fair', 'descri... has significant flaws'}, input_type=dict]
-    For further information visit https://errors.pydantic.dev/2.12/v/string_type
-rubric.criteria.1.levels.3
-  Input should be a valid string [type=string_type, input_value={'level': 'Poor', 'descri...stified or inefficient'}, input_type=dict]
+  Input should be a valid string [type=string_type, input_value={'level': 'Fair', 'descri...machine learning model'}, input_type=dict]
     For further information visit https://errors.pydantic.dev/2.12/v/string_type
 rubric.criteria.2.levels.0
-  Input should be a valid string [type=string_type, input_value={'level': 'Excellent', 'd... and thoroughly tested'}, input_type=dict]
+  Input should be a valid string [type=string_type, input_value={'level': 'Excellent', 'd...alizes results clearly'}, input_type=dict]
     For further information visit https://errors.pydantic.dev/2.12/v/string_type
 rubric.criteria.2.levels.1
-  Input should be a valid string [type=string_type, input_value={'level': 'Good', 'descri...e minor testing issues'}, input_type=dict]
+  Input should be a valid string [type=string_type, input_value={'level': 'Good', 'descri...or partially incorrect'}, input_type=dict]
     For further information visit https://errors.pydantic.dev/2.12/v/string_type
 rubric.criteria.2.levels.2
-  Input should be a valid string [type=string_type, input_value={'level': 'Fair', 'descri...tion or testing issues'}, input_type=dict]
+  Input should be a valid string [type=string_type, input_value={'level': 'Fair', 'descri... the model effectively'}, input_type=dict]
     For further information visit https://errors.pydantic.dev/2.12/v/string_type
-rubric.criteria.2.levels.3
-  Input should be a valid string [type=string_type, input_value={'level': 'Poor', 'descri...nized or lacks testing'}, input_type=dict]
+rubric.criteria.3.levels.0
+  Input should be a valid string [type=string_type, input_value={'level': 'Excellent', 'd...for future improvement'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+rubric.criteria.3.levels.1
+  Input should be a valid string [type=string_type, input_value={'level': 'Good', 'descri...or partially incorrect'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+rubric.criteria.3.levels.2
+  Input should be a valid string [type=string_type, input_value={'level': 'Fair', 'descri...for future improvement'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+rubric.criteria.4.levels.0
+  Input should be a valid string [type=string_type, input_value={'level': 'Excellent', 'd... thoroughly documented'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+rubric.criteria.4.levels.1
+  Input should be a valid string [type=string_type, input_value={'level': 'Good', 'descri...adable, and documented'}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.12/v/string_type
+rubric.criteria.4.levels.2
+  Input should be a valid string [type=string_type, input_value={'level': 'Fair', 'descri... lacking documentation'}, input_type=dict]
     For further information visit https://errors.pydantic.dev/2.12/v/string_type
 DEBUG PROJECT FULL: ```json
 {
-  "title": "Designing an Efficient Library Management System",
-  "scenario": "As part of a larger capstone project, you are tasked with designing a library management system that can efficiently store and retrieve book information. The system should be able to handle a large number of books, authors, and genres. Your task is to design the data structure and implement the basic operations for the book catalog. This module's contribution will focus on the design and implementation of the book catalog data structure and its operations. The larger system will integrate this module with other components, such as user authentication and book borrowing functionality.",
+  "title": "Predicting Student Performance: A Machine Learning Capstone Project",
+  "scenario": "As a data analyst for a school district, you have been tasked with developing a predictive model to forecast student performance in mathematics. The goal is to identify students who may be at risk of failing and provide targeted interventions to improve their chances of success. In this module, you will design and implement a machine learning model to predict student performance based on historical data. This project will contribute to a larger system that aims to improve student outcomes and reduce dropout rates.",
   "deliverables": [
-    "A written report explaining the choice of data structure and its trade-offs",
-    "A Python implementation of the book catalog data structure and its operations",
-    "A test suite to demonstrate the correctness of the implementation"
+    "A written report detailing the problem statement, data preprocessing, feature engineering, model selection, and evaluation metrics",
+    "A Python code implementation of the machine learning model using a suitable library (e.g., scikit-learn, TensorFlow)",
+    "A visual representation of the model's performance (e.g., confusion matrix, ROC curve, precision-recall curve)",
+    "A brief reflection on the limitations of the model and potential avenues for future improvement"
   ],
   "rubric": {
     "criteria": [
       {
-        "criterion": "Correctness of the implementation",
-        "weight": 0.4,
+        "criterion": "Problem Statement and Data Preprocessing",
+        "weight": 0.2,
         "levels": [
-          { "level": "Excellent", "description": "The implementation is correct and efficient" },
-          { "level": "Good", "description": "The implementation is mostly correct but has some minor errors" },
-          { "level": "Fair", "description": "The implementation has significant errors" },
-          { "level": "Poor", "description": "The implementation is incorrect or incomplete" }
+          { "level": "Excellent", "description": "Clearly defines the problem and preprocesses data effectively" },
+          { "level": "Good", "description": "Defines the problem adequately, but data preprocessing is incomplete or partially incorrect" },
+          { "level": "Fair", "description": "Fails to clearly define the problem or preprocess data effectively" }
         ]
       },
       {
-        "criterion": "Choice of data structure and trade-offs",
+        "criterion": "Model Selection and Implementation",
         "weight": 0.3,
         "levels": [
-          { "level": "Excellent", "description": "The choice of data structure is well-justified and efficient" },
-          { "level": "Good", "description": "The choice of data structure is mostly justified but has some minor flaws" },
-          { "level": "Fair", "description": "The choice of data structure has significant flaws" },
-          { "level": "Poor", "description": "The choice of data structure is unjustified or inefficient" }
+          { "level": "Excellent", "description": "Selects and implements a suitable machine learning model with high accuracy" },
+          { "level": "Good", "description": "Selects and implements a suitable machine learning model with moderate accuracy" },
+          { "level": "Fair", "description": "Fails to select or implement a suitable machine learning model" }
         ]
       },
       {
-        "criterion": "Code quality and testing",
-        "weight": 0.3,
+        "criterion": "Model Evaluation and Visualization",
+        "weight": 0.2,
         "levels": [
-          { "level": "Excellent", "description": "The code is well-organized, readable, and thoroughly tested" },
-          { "level": "Good", "description": "The code is mostly well-organized and readable but has some minor testing issues" },
-          { "level": "Fair", "description": "The code has significant organization or testing issues" },
-          { "level": "Poor", "description": "The code is poorly organized or lacks testing" }
+          { "level": "Excellent", "description": "Effectively evaluates the model using suitable metrics and visualizes results clearly" },
+          { "level": "Good", "description": "Evaluates the model adequately, but visualization is incomplete or partially incorrect" },
+          { "level": "Fair", "description": "Fails to evaluate or visualize the model effectively" }
+        ]
+      },
+      {
+        "criterion": "Reflection and Future Directions",
+        "weight": 0.1,
+        "levels": [
+          { "level": "Excellent", "description": "Provides a thoughtful reflection on the limitations of the model and suggests potential avenues for future improvement" },
+          { "level": "Good", "description": "Provides a brief reflection on the limitations of the model, but suggestions for future improvement are incomplete or partially incorrect" },
+          { "level": "Fair", "description": "Fails to provide a reflection on the limitations of the model or suggest potential avenues for future improvement" }
+        ]
+      },
+      {
+        "criterion": "Code Quality and Documentation",
+        "weight": 0.2,
+        "levels": [
+          { "level": "Excellent", "description": "Code is well-organized, readable, and thoroughly documented" },
+          { "level": "Good", "description": "Code is partially organized, readable, and documented" },
+          { "level": "Fair", "description": "Code is poorly organized, unreadable, and lacking documentation" }
         ]
       }
     ],
-    "reference_answer": "An ideal submission would include a clear and concise report explaining the choice of data structure (e.g., a hash table or a binary search tree) and its trade-offs (e.g., time and space complexity). The implementation would be efficient and correct, with a comprehensive test suite to demonstrate its correctness. The code would be well-organized, readable, and follow standard professional guidelines."
+    "reference_answer": "An ideal submission would include a clear problem statement, effective data preprocessing, a well-implemented machine learning model with high accuracy, thorough model evaluation and visualization, a thoughtful reflection on the limitations of the model, and high-quality code with thorough documentation."
   }
 }
 ```
-INFO:     127.0.0.1:64281 - "POST /api/generate-lesson HTTP/1.1" 200 OK
-Requesting presentation generation for: Foundations of Data Structures
-Downloading presentation from: http://localhost:5000/app_data/exports/Foundations of Data Structures  Speaker Notes Welcome to this lesson on the foundations of da.pptx
+INFO:     127.0.0.1:52669 - "POST /api/generate-lesson HTTP/1.1" 200 OK
+Requesting presentation generation for: Foundations of Machine Learning
+Downloading presentation from: http://localhost:5000/app_data/exports/Foundations of Machine Learning  summaries of what will be covered in the presentation about the f.pptx
 Presentation saved to: /tmp/slides_mod-1.pptx
-INFO:     127.0.0.1:64447 - "GET /api/download-slides/mod-1 HTTP/1.1" 200 OK
+INFO:     127.0.0.1:53450 - "GET /api/download-slides/mod-1 HTTP/1.1" 200 OK
